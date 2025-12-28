@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chore Champs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f8ff;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background: #4f7cff;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+.screen {
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+button {
+  background: #4f7cff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #ddd;
+  color: #333;
+}
+
+.hidden {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🏆 Chore Champs</h1>
+  <div id="coins">Coins: 0 🪙</div>
+</header>
+
+<div class="screen" id="choresScreen">
+  <h2>Today's Chores</h2>
+
+  <div class="card">
+    🛏 Make Bed
+    <br><br>
+    <button onclick="completeChore(2)">Done (+2)</button>
+  </div>
+
+  <div class="card">
+    🧸 Pick Up Toys
+    <br><br>
+    <button onclick="completeChore(3)">Done (+3)</button>
+  </div>
+
+  <div class="card">
+    🐶 Feed Pet
+    <br><br>
+    <button onclick="completeChore(2)">Done (+2)</button>
+  </div>
+
+  <button class="secondary" onclick="showRewards()">View Rewards 🎁</button>
+</div>
+
+<div class="screen hidden" id="rewardsScreen">
+  <h2>Rewards</h2>
+
+  <div class="card">
+    🍦 Ice Cream (5 coins)
+    <br><br>
+    <button onclick="redeem(5)">Redeem</button>
+  </div>
+
+  <div class="card">
+    🎮 10 Min Screen Time (8 coins)
+    <br><br>
+    <button onclick="redeem(8)">Redeem</button>
+  </div>
+
+  <button class="secondary" onclick="showChores()">Back to Chores</button>
+</div>
+
+<script>
+let coins = localStorage.getItem("coins")
+  ? parseInt(localStorage.getItem("coins"))
+  : 0;
+
+updateCoins();
+
+function completeChore(amount) {
+  alert("Great job! 🎉 Waiting for parent approval.");
+  coins += amount;
+  saveCoins();
+}
+
+function redeem(cost) {
+  if (coins >= cost) {
+    coins -= cost;
+    saveCoins();
+    alert("Reward unlocked! 🎉");
+  } else {
+    alert("Not enough coins yet!");
+  }
+}
+
+function saveCoins() {
+  localStorage.setItem("coins", coins);
+  updateCoins();
+}
+
+function updateCoins() {
+  document.getElementById("coins").innerText = `Coins: ${coins} 🪙`;
+}
+
+function showRewards() {
+  document.getElementById("choresScreen").classList.add("hidden");
+  document.getElementById("rewardsScreen").classList.remove("hidden");
+}
+
+function showChores() {
+  document.getElementById("rewardsScreen").classList.add("hidden");
+  document.getElementById("choresScreen").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
